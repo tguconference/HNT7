@@ -18,6 +18,22 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Aspect ratio for iframe */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -39,26 +55,46 @@
             <a href="#" class="flex items-center text-gray-600 hover:text-blue-800 bg-gray-100 px-3 py-2 rounded-full transition">
                 <i class="fa-solid fa-image mr-2"></i> <span class="hidden md:inline">Bộ sưu tập ảnh</span>
             </a>
-            <div class="flex items-center text-blue-800 font-medium bg-blue-50 px-3 py-2 rounded-full">
-                <i class="fa-solid fa-location-dot mr-2 text-red-500"></i> Đang ở: Sảnh Chính
+            <div id="headerLocation" class="flex items-center text-blue-800 font-medium bg-blue-50 px-3 py-2 rounded-full transition-all duration-300">
+                <i class="fa-solid fa-location-dot mr-2 text-red-500"></i> <span id="locationText">Đang ở: Sảnh Chính</span>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow flex items-center justify-center p-4 md:p-8">
-        <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6">
+    <main class="flex-grow flex items-start justify-center p-4 md:p-8">
+        
+        <!-- ============================================== -->
+        <!-- VIEW 1: SẢNH CHÍNH (Sự kiện & Nút chức năng)   -->
+        <!-- ============================================== -->
+        <div id="viewLobby" class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-500">
             
             <!-- Cột Trái: Thông tin sự kiện -->
             <div class="md:col-span-2 bg-white rounded-xl shadow-2xl overflow-hidden relative border-l-8 border-yellow-400">
                 <div class="p-6 md:p-8">
-                    <span class="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-4">THÔNG TIN SỰ KIỆN</span>
                     
-                    <h2 class="text-2xl md:text-3xl font-black text-gray-800 mb-2 uppercase leading-tight" id="eventTitle">
-                        Trò chuyện cùng TS. Lê Văn Hưởng
-                    </h2>
-                    <p class="text-gray-600 font-medium mb-6 uppercase tracking-wide">Trường Đại học Tiền Giang</p>
+                    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6 text-center sm:text-left">
+                        <div class="shrink-0 relative">
+                            <img src="images.jfif" 
+                                 onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=Lê+Văn+Hưởng&background=0D8ABC&color=fff&size=256';" 
+                                 alt="TS. Lê Văn Hưởng" 
+                                 class="w-28 h-28 md:w-36 md:h-36 object-cover rounded-full border-4 border-white outline outline-2 outline-blue-200 shadow-xl bg-white">
+                            <div class="absolute bottom-1 right-1 bg-yellow-500 text-white rounded-full w-8 h-8 flex items-center justify-center border-2 border-white shadow-sm">
+                                <i class="fa-solid fa-microphone-lines text-xs"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1 mt-2 sm:mt-0">
+                            <span class="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-3">THÔNG TIN SỰ KIỆN</span>
+                            <h2 class="text-2xl md:text-3xl font-black text-gray-800 mb-2 uppercase leading-tight" id="eventTitle">
+                                Trò chuyện cùng TS. Lê Văn Hưởng
+                            </h2>
+                            <p class="text-gray-600 font-medium uppercase tracking-wide">Trường Đại học Tiền Giang</p>
+                        </div>
+                    </div>
                     
+                    <hr class="border-gray-100 mb-6">
+
                     <div class="space-y-4 mb-6">
                         <div class="flex items-start">
                             <i class="fa-regular fa-clock text-red-600 mt-1 mr-3 w-5 text-center"></i>
@@ -70,20 +106,10 @@
                         </div>
                     </div>
 
-                    <!-- Bản đồ Google Maps nhúng -->
                     <div class="rounded-lg overflow-hidden border border-gray-200 shadow-inner">
-                        <iframe 
-                            src="https://maps.google.com/maps?q=Trường+Đại+học+Tiền+Giang,+Cơ+sở+Thân+Cửu+Nghĩa,+Châu+Thành,+Tiền+Giang&t=&z=16&ie=UTF8&iwloc=&output=embed" 
-                            width="100%" 
-                            height="250" 
-                            style="border:0;" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
+                        <iframe src="https://maps.google.com/maps?q=Trường+Đại+học+Tiền+Giang,+Cơ+sở+Thân+Cửu+Nghĩa,+Châu+Thành,+Tiền+Giang&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                     </div>
 
-                    <!-- Nút Xác nhận tham dự -->
                     <button onclick="openRsvpModal()" class="w-full mt-6 bg-red-600 hover:bg-red-700 text-white font-bold text-lg py-3 px-4 rounded-xl shadow-lg transition transform hover:-translate-y-1 flex justify-center items-center">
                         <i class="fa-solid fa-clipboard-check mr-2"></i> XÁC NHẬN THAM DỰ SỰ KIỆN
                     </button>
@@ -92,7 +118,6 @@
 
             <!-- Cột Phải: Các nút chức năng -->
             <div class="space-y-4 flex flex-col justify-center">
-                
                 <button onclick="openModal()" class="w-full bg-white rounded-xl shadow-lg p-4 flex items-center group hover:shadow-xl transition transform hover:-translate-y-1 text-left">
                     <div class="bg-green-500 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl shadow-inner group-hover:bg-green-600 transition shrink-0">
                         <i class="fa-solid fa-users"></i>
@@ -113,7 +138,8 @@
                     </div>
                 </a>
 
-                <a href="#" class="w-full bg-white rounded-xl shadow-lg p-4 flex items-center group hover:shadow-xl transition transform hover:-translate-y-1 text-left">
+                <!-- Nút Đã Đổi Hành Động: Chuyển sang View Phòng Truyền Thống -->
+                <button onclick="switchView('gallery')" class="w-full bg-white rounded-xl shadow-lg p-4 flex items-center group hover:shadow-xl transition transform hover:-translate-y-1 text-left">
                     <div class="bg-purple-600 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl shadow-inner group-hover:bg-purple-700 transition shrink-0">
                         <i class="fa-solid fa-building-columns"></i>
                     </div>
@@ -121,13 +147,49 @@
                         <h3 class="text-lg font-bold text-gray-800">Phòng Truyền Thống</h3>
                         <p class="text-xs text-gray-500 mt-1 line-clamp-2">Khám phá video giới thiệu về Trường ĐH Tiền Giang.</p>
                     </div>
-                </a>
+                </button>
                 
                 <div class="text-center pt-2">
                     <a href="#" class="text-white/60 text-xs hover:text-white transition">Vuốt để xem thêm thông tin sự kiện <i class="fa-solid fa-chevron-down ml-1"></i></a>
                 </div>
             </div>
+        </div>
 
+        <!-- ============================================== -->
+        <!-- VIEW 2: PHÒNG TRUYỀN THỐNG (Video Gallery)     -->
+        <!-- ============================================== -->
+        <div id="viewGallery" class="w-full max-w-6xl hidden bg-white rounded-xl shadow-2xl overflow-hidden opacity-0 transition-opacity duration-500">
+            <div class="p-6 md:p-8">
+                <!-- Header của Gallery -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b border-gray-100 pb-4 gap-4">
+                    <div>
+                        <span class="inline-block text-purple-700 text-xs font-bold uppercase tracking-wider mb-1"><i class="fa-solid fa-building-columns mr-1"></i> KHÔNG GIAN TGU</span>
+                        <h2 class="text-2xl font-black text-gray-800">Phòng Truyền Thống & Video Gallery</h2>
+                    </div>
+                    <button onclick="switchView('lobby')" class="px-5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition flex items-center border border-gray-300">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> Quay lại Sảnh
+                    </button>
+                </div>
+
+                <!-- Grid Video và Playlist -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Trình phát Video chính -->
+                    <div class="lg:col-span-2">
+                        <div class="video-container shadow-lg rounded-xl border border-gray-200 bg-black">
+                            <iframe id="mainVideoPlayer" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                        <h3 id="mainVideoTitle" class="mt-4 text-xl font-bold text-gray-800 leading-tight"></h3>
+                    </div>
+
+                    <!-- Danh sách Video (Playlist) -->
+                    <div class="lg:col-span-1">
+                        <h4 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Danh sách Video</h4>
+                        <div id="playlistContainer" class="space-y-3 overflow-y-auto max-h-[400px] custom-scrollbar pr-2">
+                            <!-- Các item playlist sẽ được JS tạo tự động ở đây -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -138,98 +200,91 @@
         </button>
     </div>
 
-    <!-- MODAL DANH SÁCH KHÁCH MỜI -->
+    <!-- MODAL DANH SÁCH KHÁCH MỜI (Giữ nguyên) -->
     <div id="guestModal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <!-- ... code modal khách mời giữ nguyên như cũ ... -->
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col transform scale-95 transition-transform duration-300" id="modalContent">
             <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-2xl">
                 <div>
                     <h3 class="text-xl font-bold text-gray-800">Danh Sách Đại Biểu & Khách Mời</h3>
                     <p class="text-sm text-gray-500" id="guestCount">Đang tải...</p>
                 </div>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 focus:outline-none transition text-2xl">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 focus:outline-none transition text-2xl"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="p-6 overflow-y-auto custom-scrollbar flex-grow">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-gray-100 text-gray-600 text-sm uppercase">
-                                <th class="py-3 px-4 rounded-tl-lg font-semibold w-16 text-center">STT</th>
-                                <th class="py-3 px-4 font-semibold">Họ và Tên</th>
-                                <th class="py-3 px-4 font-semibold">Chức Vụ / Đơn vị</th>
-                                <th class="py-3 px-4 rounded-tr-lg font-semibold text-center">Phân Loại</th>
-                            </tr>
-                        </thead>
-                        <tbody id="guestListContainer" class="divide-y divide-gray-100">
-                        </tbody>
-                    </table>
-                </div>
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-600 text-sm uppercase">
+                            <th class="py-3 px-4 w-16 text-center">STT</th>
+                            <th class="py-3 px-4">Họ và Tên</th>
+                            <th class="py-3 px-4">Chức Vụ / Đơn vị</th>
+                            <th class="py-3 px-4 text-center">Phân Loại</th>
+                        </tr>
+                    </thead>
+                    <tbody id="guestListContainer" class="divide-y divide-gray-100"></tbody>
+                </table>
             </div>
             <div class="px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-2xl text-right">
-                <button onclick="closeModal()" class="bg-gray-800 hover:bg-gray-900 text-white px-5 py-2 rounded-lg font-medium transition shadow-md">
-                    Đóng cửa sổ
-                </button>
+                <button onclick="closeModal()" class="bg-gray-800 hover:bg-gray-900 text-white px-5 py-2 rounded-lg font-medium transition shadow-md">Đóng cửa sổ</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL XÁC NHẬN THAM DỰ (RSVP) -->
+    <!-- MODAL XÁC NHẬN THAM DỰ (Giữ nguyên) -->
     <div id="rsvpModal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <!-- ... code form RSVP giữ nguyên như cũ ... -->
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg transform scale-95 transition-transform duration-300" id="rsvpModalContent">
-            
             <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-blue-50 rounded-t-2xl">
                 <h3 class="text-xl font-bold text-blue-900">Xác Nhận Tham Dự</h3>
-                <button onclick="closeRsvpModal()" class="text-gray-400 hover:text-red-500 transition text-2xl">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+                <button onclick="closeRsvpModal()" class="text-gray-400 hover:text-red-500 transition text-2xl"><i class="fa-solid fa-xmark"></i></button>
             </div>
-
-            <!-- Các input đã có name="..." cho gửi Form -->
             <form id="rsvpForm" onsubmit="submitRsvpForm(event)" class="p-6">
                 <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Họ và Tên *</label>
-                        <input type="text" name="name" id="rsvpName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: Lê Văn Hưởng">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Chức vụ / Đơn vị công tác *</label>
-                        <input type="text" name="unit" id="rsvpUnit" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: UBND Tỉnh / Trường ĐH Tiền Giang">
-                    </div>
-
+                    <div><label class="block text-sm font-medium text-gray-700 mb-1">Họ và Tên *</label><input type="text" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></div>
+                    <div><label class="block text-sm font-medium text-gray-700 mb-1">Đơn vị công tác *</label><input type="text" name="unit" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Khả năng tham dự *</label>
-                        <select name="status" id="rsvpStatus" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white">
+                        <select name="status" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white">
                             <option value="Tham dự">Có, tôi sẽ tham dự</option>
-                            <option value="Không tham dự">Rất tiếc, tôi không thể tham dự</option>
-                            <option value="Cử người đi thay">Tôi bận, sẽ cử đại diện đi thay</option>
+                            <option value="Không tham dự">Không thể tham dự</option>
+                            <option value="Cử người đi thay">Cử đại diện đi thay</option>
                         </select>
                     </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Ghi chú thêm (Không bắt buộc)</label>
-                        <textarea name="note" id="rsvpNote" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: Thông tin người đi thay, yêu cầu hỗ trợ..."></textarea>
-                    </div>
+                    <div><label class="block text-sm font-medium text-gray-700 mb-1">Ghi chú</label><textarea name="note" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></textarea></div>
                 </div>
-                
-                <div class="mt-6">
-                    <button type="submit" id="btnSubmitForm" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-md flex justify-center items-center">
-                        <span>Gửi Xác Nhận</span>
-                    </button>
-                </div>
+                <div class="mt-6"><button type="submit" id="btnSubmitForm" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-md">Gửi Xác Nhận</button></div>
             </form>
         </div>
     </div>
 
     <script>
         // ==========================================
-        // CẤU HÌNH SỰ KIỆN 
+        // CẤU HÌNH SỰ KIỆN & PLAYLIST VIDEO
         // ==========================================
         const eventConfig = {
             title: "Trò chuyện cùng TS. Lê Văn Hưởng",
             time: "08 giờ 30 phút, ngày 26 tháng 9 năm 2026 (thứ Bảy).",
             location: "Phòng Khánh tiết, Trường ĐH Tiền Giang",
+            
+            // Cấu hình danh sách Video YouTube
+            videos: [
+                { 
+                    id: "DWNYvUjl6Rc", 
+                    title: "KỶ NIỆM 21 NĂM NGÀY THÀNH LẬP TRƯỜNG ĐẠI HỌC TIỀN GIANG",
+                    duration: "07:40"
+                },
+                { 
+                    id: "Gku0_gDI0jE", 
+                    title: "Dự án Thanh Âm đạt giải Ba tại Cuộc thi Đổi mới sáng tạo thành phố",
+                    duration: "03:20"
+                },
+                { 
+                    id: "KCCzdceBY0o", 
+                    title: "Trường Đại học Tiền Giang đẩy mạnh hợp tác quốc tế",
+                    duration: "02:58"
+                }
+            ],
+            
             guests: [
                 { name: "TS. Lê Văn Hưởng", role: "Nguyên Phó Bí thư Tỉnh ủy, Nguyên Chủ tịch UBND tỉnh", type: "VIP" },
                 { name: "PGS.TS. Nguyễn Văn A", role: "Hiệu trưởng Trường Đại học Tiền Giang", type: "Chủ trì" },
@@ -240,14 +295,110 @@
             ]
         };
 
+        // ==========================================
+        // KHỞI TẠO & CHUYỂN TRANG (Single Page App)
+        // ==========================================
+        let currentActiveVideoIndex = 0;
+
         document.addEventListener('DOMContentLoaded', () => {
+            // Setup Lobby Info
             document.getElementById('eventTitle').innerText = eventConfig.title;
             document.getElementById('eventTime').innerText = eventConfig.time;
             document.getElementById('eventLocation').innerText = eventConfig.location;
+            
             renderGuestList();
+            renderPlaylist();
         });
 
-        // Xử lý danh sách khách mời
+        // Hàm chuyển đổi qua lại giữa Sảnh và Video Gallery
+        function switchView(viewName) {
+            const viewLobby = document.getElementById('viewLobby');
+            const viewGallery = document.getElementById('viewGallery');
+            const locationText = document.getElementById('locationText');
+            const headerLocation = document.getElementById('headerLocation');
+            const mainVideoPlayer = document.getElementById('mainVideoPlayer');
+
+            if (viewName === 'gallery') {
+                // Đổi Header
+                locationText.innerText = "Đang ở: Không Gian TGU (Video)";
+                headerLocation.classList.replace('bg-blue-50', 'bg-purple-100');
+                
+                // Đổi Giao diện
+                viewLobby.classList.add('hidden', 'opacity-0');
+                viewGallery.classList.remove('hidden');
+                
+                // Tải video đầu tiên nếu chưa tải
+                if(!mainVideoPlayer.src.includes('youtube.com')) {
+                    playVideo(0); 
+                }
+                
+                setTimeout(() => viewGallery.classList.remove('opacity-0'), 50);
+            } 
+            else if (viewName === 'lobby') {
+                // Dừng video khi quay lại sảnh (để đỡ ồn)
+                mainVideoPlayer.src = mainVideoPlayer.src; 
+
+                // Đổi Header
+                locationText.innerText = "Đang ở: Sảnh Chính";
+                headerLocation.classList.replace('bg-purple-100', 'bg-blue-50');
+                
+                // Đổi Giao diện
+                viewGallery.classList.add('hidden', 'opacity-0');
+                viewLobby.classList.remove('hidden');
+                setTimeout(() => viewLobby.classList.remove('opacity-0'), 50);
+            }
+        }
+
+        // ==========================================
+        // LOGIC XỬ LÝ PLAYLIST YOUTUBE
+        // ==========================================
+        function renderPlaylist() {
+            const playlistContainer = document.getElementById('playlistContainer');
+            playlistContainer.innerHTML = '';
+
+            eventConfig.videos.forEach((video, index) => {
+                // Cấu trúc HTML cho từng item trong danh sách video
+                const item = document.createElement('div');
+                item.className = `flex items-center p-3 rounded-lg cursor-pointer transition border border-transparent ${index === 0 ? 'bg-purple-50 border-purple-200' : 'bg-gray-50 hover:bg-gray-100'}`;
+                item.onclick = () => playVideo(index);
+                item.id = `video-item-${index}`;
+                
+                item.innerHTML = `
+                    <div class="relative shrink-0 w-16 h-12 bg-gray-300 rounded flex items-center justify-center overflow-hidden">
+                        <img src="https://img.youtube.com/vi/${video.id}/default.jpg" class="w-full h-full object-cover opacity-80" alt="thumbnail">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="fa-solid fa-play text-white drop-shadow-md text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="ml-3 flex-1">
+                        <h4 class="text-xs font-bold text-gray-800 line-clamp-2">${video.title}</h4>
+                        <p class="text-[10px] text-gray-500 mt-0.5"><i class="fa-regular fa-clock mr-1"></i>${video.duration}</p>
+                    </div>
+                `;
+                playlistContainer.appendChild(item);
+            });
+        }
+
+        function playVideo(index) {
+            const video = eventConfig.videos[index];
+            
+            // Đổi source iframe, có thêm autoplay=1
+            const player = document.getElementById('mainVideoPlayer');
+            player.src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+            
+            // Cập nhật tiêu đề bên dưới video
+            document.getElementById('mainVideoTitle').innerText = video.title;
+
+            // Xử lý đổi màu highlight (active) trên danh sách
+            document.getElementById(`video-item-${currentActiveVideoIndex}`).className = 'flex items-center p-3 rounded-lg cursor-pointer transition border border-transparent bg-gray-50 hover:bg-gray-100';
+            document.getElementById(`video-item-${index}`).className = 'flex items-center p-3 rounded-lg cursor-pointer transition border border-purple-200 bg-purple-50';
+            
+            currentActiveVideoIndex = index;
+        }
+
+        // ==========================================
+        // CÁC HÀM CŨ: MODAL KHÁCH MỜI & RSVP (Giữ nguyên)
+        // ==========================================
         function renderGuestList() {
             const container = document.getElementById('guestListContainer');
             document.getElementById('guestCount').innerText = `Tổng số: ${eventConfig.guests.length} đại biểu`;
@@ -258,79 +409,31 @@
                 else if(guest.type === 'Chủ trì') badgeColor = 'bg-yellow-100 text-yellow-700 font-bold';
                 else if(guest.type === 'Đại biểu') badgeColor = 'bg-blue-100 text-blue-700';
                 else if(guest.type === 'Ban tổ chức') badgeColor = 'bg-green-100 text-green-700';
-
-                container.insertAdjacentHTML('beforeend', `
-                    <tr class="hover:bg-blue-50 transition">
-                        <td class="py-3 px-4 text-center text-gray-500 font-medium">${index + 1}</td>
-                        <td class="py-3 px-4 font-bold text-gray-800">${guest.name}</td>
-                        <td class="py-3 px-4 text-gray-600 text-sm">${guest.role}</td>
-                        <td class="py-3 px-4 text-center"><span class="text-xs px-2 py-1 rounded-full ${badgeColor}">${guest.type}</span></td>
-                    </tr>
-                `);
+                container.insertAdjacentHTML('beforeend', `<tr class="hover:bg-blue-50 border-b border-gray-100"><td class="py-3 px-4 text-center text-gray-500 text-sm">${index + 1}</td><td class="py-3 px-4 font-bold text-gray-800 text-sm">${guest.name}</td><td class="py-3 px-4 text-gray-600 text-xs">${guest.role}</td><td class="py-3 px-4 text-center"><span class="text-[10px] px-2 py-1 rounded-full ${badgeColor}">${guest.type}</span></td></tr>`);
             });
         }
 
-        const modal = document.getElementById('guestModal');
-        const modalContent = document.getElementById('modalContent');
-
-        function openModal() {
-            modal.classList.remove('hidden');
-            setTimeout(() => { modal.classList.remove('opacity-0'); modalContent.classList.remove('scale-95'); }, 10);
-        }
-        function closeModal() {
-            modal.classList.add('opacity-0'); modalContent.classList.add('scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-        }
+        const modal = document.getElementById('guestModal'), modalContent = document.getElementById('modalContent');
+        function openModal() { modal.classList.remove('hidden'); setTimeout(() => { modal.classList.remove('opacity-0'); modalContent.classList.remove('scale-95'); }, 10); }
+        function closeModal() { modal.classList.add('opacity-0'); modalContent.classList.add('scale-95'); setTimeout(() => { modal.classList.add('hidden'); }, 300); }
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-        // Xử lý Modal RSVP
-        const rsvpModal = document.getElementById('rsvpModal');
-        const rsvpModalContent = document.getElementById('rsvpModalContent');
-
-        function openRsvpModal() {
-            rsvpModal.classList.remove('hidden');
-            setTimeout(() => { rsvpModal.classList.remove('opacity-0'); rsvpModalContent.classList.remove('scale-95'); }, 10);
-        }
-        function closeRsvpModal() {
-            rsvpModal.classList.add('opacity-0'); rsvpModalContent.classList.add('scale-95');
-            setTimeout(() => { rsvpModal.classList.add('hidden'); }, 300);
-        }
+        const rsvpModal = document.getElementById('rsvpModal'), rsvpModalContent = document.getElementById('rsvpModalContent');
+        function openRsvpModal() { rsvpModal.classList.remove('hidden'); setTimeout(() => { rsvpModal.classList.remove('opacity-0'); rsvpModalContent.classList.remove('scale-95'); }, 10); }
+        function closeRsvpModal() { rsvpModal.classList.add('opacity-0'); rsvpModalContent.classList.add('scale-95'); setTimeout(() => { rsvpModal.classList.add('hidden'); }, 300); }
         rsvpModal.addEventListener('click', (e) => { if (e.target === rsvpModal) closeRsvpModal(); });
 
-        // XỬ LÝ GỬI FORM VỀ GOOGLE SHEETS
         function submitRsvpForm(event) {
             event.preventDefault(); 
-            
             const btnSubmit = document.getElementById('btnSubmitForm');
-            btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang gửi...';
-            btnSubmit.disabled = true;
-
+            btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang gửi...'; btnSubmit.disabled = true;
             const form = document.getElementById('rsvpForm');
-            const formData = new FormData(form);
-
-            // Đã cập nhật URL Web App mới của bạn tại đây
             const scriptURL = 'https://script.google.com/macros/s/AKfycbwucrvLmBknl_vM5CjsoA2UBBRTipIFCRkDlYynyQDbtUGPU4p4y_CYrVBlB7s6odnGsg/exec'; 
 
-            fetch(scriptURL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: formData
-            })
-            .then(() => {
-                alert('Cảm ơn! Xác nhận của bạn đã được lưu vào hệ thống thành công.');
-                form.reset();
-                closeRsvpModal();
-            })
-            .catch(error => {
-                console.error('Error!', error.message);
-                alert('Xác nhận đã được gửi đi. Vui lòng kiểm tra lại danh sách đăng ký.');
-                form.reset();
-                closeRsvpModal();
-            })
-            .finally(() => {
-                btnSubmit.innerHTML = '<span>Gửi Xác Nhận</span>';
-                btnSubmit.disabled = false;
-            });
+            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: new FormData(form) })
+            .then(() => { alert('Cảm ơn! Xác nhận của bạn đã được lưu vào hệ thống thành công.'); form.reset(); closeRsvpModal(); })
+            .catch(error => { alert('Đã gửi thông tin.'); form.reset(); closeRsvpModal(); })
+            .finally(() => { btnSubmit.innerHTML = 'Gửi Xác Nhận'; btnSubmit.disabled = false; });
         }
     </script>
 </body>
