@@ -227,7 +227,141 @@
         // CẤU HÌNH SỰ KIỆN 
         // ==========================================
         const eventConfig = {
-            title: "HỘI NGHỊ ĐÁNH GIÁ KẾT QUẢ THỰC HIỆN NGHỊ QUYẾT SỐ 57-NQ/TW",
+            title: "Trò chuyện cùng TS. Lê Văn Hưởng",
+            time: "08 giờ 30 phút, ngày 26 tháng 9 năm 2026 (thứ Bảy).",
+            location: "Phòng Khánh tiết, Trường ĐH Tiền Giang",
+            guests: [
+                { name: "TS. Lê Văn Hưởng", role: "Nguyên Phó Bí thư Tỉnh ủy, Nguyên Chủ tịch UBND tỉnh", type: "VIP" },
+                { name: "PGS.TS. Nguyễn Văn A", role: "Hiệu trưởng Trường Đại học Tiền Giang", type: "Chủ trì" },
+                { name: "TS. Trần Thị B", role: "Trưởng khoa CNTT", type: "Đại biểu" },
+                { name: "ThS. Lê Hoàng C", role: "Giám đốc TT Thông tin - Thư viện", type: "Đại biểu" },
+                { name: "Ông Phạm Văn D", role: "Sở Giáo dục và Đào tạo", type: "Khách mời" },
+                { name: "Bà Nguyễn Thị E", role: "Phòng Hành chính Tổng hợp", type: "Ban tổ chức" }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('eventTitle').innerText = eventConfig.title;
+            document.getElementById('eventTime').innerText = eventConfig.time;
+            document.getElementById('eventLocation').innerText = eventConfig.location;
+            renderGuestList();
+        });
+
+        // Xử lý danh sách khách mời
+        function renderGuestList() {
+            const container = document.getElementById('guestListContainer');
+            document.getElementById('guestCount').innerText = `Tổng số: ${eventConfig.guests.length} đại biểu`;
+            container.innerHTML = '';
+            eventConfig.guests.forEach((guest, index) => {
+                let badgeColor = 'bg-gray-100 text-gray-700';
+                if(guest.type === 'VIP') badgeColor = 'bg-red-100 text-red-700 font-bold';
+                else if(guest.type === 'Chủ trì') badgeColor = 'bg-yellow-100 text-yellow-700 font-bold';
+                else if(guest.type === 'Đại biểu') badgeColor = 'bg-blue-100 text-blue-700';
+                else if(guest.type === 'Ban tổ chức') badgeColor = 'bg-green-100 text-green-700';
+
+                container.insertAdjacentHTML('beforeend', `
+                    <tr class="hover:bg-blue-50 transition">
+                        <td class="py-3 px-4 text-center text-gray-500 font-medium">${index + 1}</td>
+                        <td class="py-3 px-4 font-bold text-gray-800">${guest.name}</td>
+                        <td class="py-3 px-4 text-gray-600 text-sm">${guest.role}</td>
+                        <td class="py-3 px-4 text-center"><span class="text-xs px-2 py-1 rounded-full ${badgeColor}">${guest.type}</span></td>
+                    </tr>
+                `);
+            });
+        }
+
+        const modal = document.getElementById('guestModal');
+        const modalContent = document.getElementById('modalContent');
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('opacity-0'); modalContent.classList.remove('scale-95'); }, 10);
+        }
+        function closeModal() {
+            modal.classList.add('opacity-0'); modalContent.classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+        // Xử lý Modal RSVP
+        const rsvpModal = document.getElementById('rsvpModal');
+        const rsvpModalContent = document.getElementById('rsvpModalContent');
+
+        function openRsvpModal() {
+            rsvpModal.classList.remove('hidden');
+            setTimeout(() => { rsvpModal.classList.remove('opacity-0'); rsvpModalContent.classList.remove('scale-95'); }, 10);
+        }
+        function closeRsvpModal() {
+            rsvpModal.classList.add('opacity-0'); rsvpModalContent.classList.add('scale-95');
+            setTimeout(() => { rsvpModal.classList.add('hidden'); }, 300);
+        }
+        rsvpModal.addEventListener('click', (e) => { if (e.target === rsvpModal) closeRsvpModal(); });
+
+        // XỬ LÝ GỬI FORM VỀ GOOGLE SHEETS
+        function submitRsvpForm(event) {
+            event.preventDefault(); 
+            
+            const btnSubmit = document.getElementById('btnSubmitForm');
+            btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang gửi...';
+            btnSubmit.disabled = true;
+
+            const form = document.getElementById('rsvpForm');
+            const formData = new FormData(form);
+
+            const scriptURL = '<!-- MODAL XÁC NHẬN THAM DỰ (RSVP) -->
+    <div id="rsvpModal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg transform scale-95 transition-transform duration-300" id="rsvpModalContent">
+            
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-blue-50 rounded-t-2xl">
+                <h3 class="text-xl font-bold text-blue-900">Xác Nhận Tham Dự</h3>
+                <button onclick="closeRsvpModal()" class="text-gray-400 hover:text-red-500 transition text-2xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- CHÚ Ý: Đã thêm name="name", name="unit"... vào các input -->
+            <form id="rsvpForm" onsubmit="submitRsvpForm(event)" class="p-6">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Họ và Tên *</label>
+                        <input type="text" name="name" id="rsvpName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: Lê Văn Hưởng">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Chức vụ / Đơn vị công tác *</label>
+                        <input type="text" name="unit" id="rsvpUnit" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: UBND Tỉnh / Trường ĐH Tiền Giang">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Khả năng tham dự *</label>
+                        <select name="status" id="rsvpStatus" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white">
+                            <option value="Tham dự">Có, tôi sẽ tham dự</option>
+                            <option value="Không tham dự">Rất tiếc, tôi không thể tham dự</option>
+                            <option value="Cử người đi thay">Tôi bận, sẽ cử đại diện đi thay</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ghi chú thêm (Không bắt buộc)</label>
+                        <textarea name="note" id="rsvpNote" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: Thông tin người đi thay, yêu cầu hỗ trợ..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <button type="submit" id="btnSubmitForm" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-md flex justify-center items-center">
+                        <span>Gửi Xác Nhận</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // CẤU HÌNH SỰ KIỆN 
+        // ==========================================
+        const eventConfig = {
+            title: "Trò chuyện cùng TS. Lê Văn Hưởng",
             time: "08 giờ 30 phút, ngày 26 tháng 9 năm 2026 (thứ Bảy).",
             location: "Phòng Khánh tiết, Trường ĐH Tiền Giang",
             guests: [
@@ -309,6 +443,31 @@
             const formData = new FormData(form);
 
             const scriptURL = 'https://script.google.com/macros/s/AKfycbwD-q5a960UGaA1IvUovZ365Vawn5gOcrlX2SWnedrTy8u_GgJGrGQz-yZnmKHmd6X9gQ/exec'; 
+
+            // Sử dụng mode: 'no-cors' để vượt qua bảo mật trình duyệt
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formData
+            })
+            .then(() => {
+                // Với no-cors, trình duyệt không đọc được phản hồi nhưng request đã đi thành công
+                alert('Cảm ơn! Xác nhận của bạn đã được lưu vào hệ thống thành công.');
+                form.reset();
+                closeRsvpModal();
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert('Xác nhận đã được gửi đi. Vui lòng kiểm tra lại danh sách đăng ký.');
+                form.reset();
+                closeRsvpModal();
+            })
+            .finally(() => {
+                btnSubmit.innerHTML = '<span>Gửi Xác Nhận</span>';
+                btnSubmit.disabled = false;
+            });
+        }
+    </script>'; 
 
             // Sử dụng mode: 'no-cors' để vượt qua bảo mật trình duyệt
             fetch(scriptURL, {
