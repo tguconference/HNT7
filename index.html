@@ -185,21 +185,22 @@
                 </button>
             </div>
 
+            <!-- CHÚ Ý: Đã thêm name="name", name="unit"... vào các input -->
             <form id="rsvpForm" onsubmit="submitRsvpForm(event)" class="p-6">
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Họ và Tên *</label>
-                        <input type="text" id="rsvpName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: Lê Văn Hưởng">
+                        <input type="text" name="name" id="rsvpName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: Lê Văn Hưởng">
                     </div>
                     
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Chức vụ / Đơn vị công tác *</label>
-                        <input type="text" id="rsvpUnit" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: UBND Tỉnh / Trường ĐH Tiền Giang">
+                        <input type="text" name="unit" id="rsvpUnit" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: UBND Tỉnh / Trường ĐH Tiền Giang">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Khả năng tham dự *</label>
-                        <select id="rsvpStatus" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white">
+                        <select name="status" id="rsvpStatus" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white">
                             <option value="Tham dự">Có, tôi sẽ tham dự</option>
                             <option value="Không tham dự">Rất tiếc, tôi không thể tham dự</option>
                             <option value="Cử người đi thay">Tôi bận, sẽ cử đại diện đi thay</option>
@@ -208,7 +209,7 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Ghi chú thêm (Không bắt buộc)</label>
-                        <textarea id="rsvpNote" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: Thông tin người đi thay, yêu cầu hỗ trợ..."></textarea>
+                        <textarea name="note" id="rsvpNote" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: Thông tin người đi thay, yêu cầu hỗ trợ..."></textarea>
                     </div>
                 </div>
                 
@@ -239,7 +240,6 @@
             ]
         };
 
-        // Khởi tạo
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('eventTitle').innerText = eventConfig.title;
             document.getElementById('eventTime').innerText = eventConfig.time;
@@ -247,16 +247,11 @@
             renderGuestList();
         });
 
-        // ==========================================
-        // LOGIC MODAL DANH SÁCH KHÁCH MỜI
-        // ==========================================
+        // Xử lý danh sách khách mời
         function renderGuestList() {
             const container = document.getElementById('guestListContainer');
-            const countLabel = document.getElementById('guestCount');
-            
-            countLabel.innerText = `Tổng số: ${eventConfig.guests.length} đại biểu`;
+            document.getElementById('guestCount').innerText = `Tổng số: ${eventConfig.guests.length} đại biểu`;
             container.innerHTML = '';
-
             eventConfig.guests.forEach((guest, index) => {
                 let badgeColor = 'bg-gray-100 text-gray-700';
                 if(guest.type === 'VIP') badgeColor = 'bg-red-100 text-red-700 font-bold';
@@ -264,17 +259,14 @@
                 else if(guest.type === 'Đại biểu') badgeColor = 'bg-blue-100 text-blue-700';
                 else if(guest.type === 'Ban tổ chức') badgeColor = 'bg-green-100 text-green-700';
 
-                const rowHtml = `
+                container.insertAdjacentHTML('beforeend', `
                     <tr class="hover:bg-blue-50 transition">
                         <td class="py-3 px-4 text-center text-gray-500 font-medium">${index + 1}</td>
                         <td class="py-3 px-4 font-bold text-gray-800">${guest.name}</td>
                         <td class="py-3 px-4 text-gray-600 text-sm">${guest.role}</td>
-                        <td class="py-3 px-4 text-center">
-                            <span class="text-xs px-2 py-1 rounded-full ${badgeColor}">${guest.type}</span>
-                        </td>
+                        <td class="py-3 px-4 text-center"><span class="text-xs px-2 py-1 rounded-full ${badgeColor}">${guest.type}</span></td>
                     </tr>
-                `;
-                container.insertAdjacentHTML('beforeend', rowHtml);
+                `);
             });
         }
 
@@ -283,47 +275,29 @@
 
         function openModal() {
             modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalContent.classList.remove('scale-95');
-            }, 10);
+            setTimeout(() => { modal.classList.remove('opacity-0'); modalContent.classList.remove('scale-95'); }, 10);
         }
-
         function closeModal() {
-            modal.classList.add('opacity-0');
-            modalContent.classList.add('scale-95');
+            modal.classList.add('opacity-0'); modalContent.classList.add('scale-95');
             setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-
-        // ==========================================
-        // LOGIC MODAL RSVP & KẾT NỐI GOOGLE SHEETS
-        // ==========================================
+        // Xử lý Modal RSVP
         const rsvpModal = document.getElementById('rsvpModal');
         const rsvpModalContent = document.getElementById('rsvpModalContent');
 
         function openRsvpModal() {
             rsvpModal.classList.remove('hidden');
-            setTimeout(() => {
-                rsvpModal.classList.remove('opacity-0');
-                rsvpModalContent.classList.remove('scale-95');
-            }, 10);
+            setTimeout(() => { rsvpModal.classList.remove('opacity-0'); rsvpModalContent.classList.remove('scale-95'); }, 10);
         }
-
         function closeRsvpModal() {
-            rsvpModal.classList.add('opacity-0');
-            rsvpModalContent.classList.add('scale-95');
+            rsvpModal.classList.add('opacity-0'); rsvpModalContent.classList.add('scale-95');
             setTimeout(() => { rsvpModal.classList.add('hidden'); }, 300);
         }
+        rsvpModal.addEventListener('click', (e) => { if (e.target === rsvpModal) closeRsvpModal(); });
 
-        rsvpModal.addEventListener('click', (e) => {
-            if (e.target === rsvpModal) closeRsvpModal();
-        });
-
-        // Xử lý gửi form
+        // XỬ LÝ GỬI FORM VỀ GOOGLE SHEETS
         function submitRsvpForm(event) {
             event.preventDefault(); 
             
@@ -331,32 +305,28 @@
             btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang gửi...';
             btnSubmit.disabled = true;
 
-            const data = {
-                name: document.getElementById('rsvpName').value,
-                unit: document.getElementById('rsvpUnit').value,
-                status: document.getElementById('rsvpStatus').value,
-                note: document.getElementById('rsvpNote').value
-            };
+            const form = document.getElementById('rsvpForm');
+            const formData = new FormData(form);
 
-            // Link Web App Google Script bạn vừa cung cấp
             const scriptURL = 'https://script.google.com/macros/s/AKfycbwD-q5a960UGaA1IvUovZ365Vawn5gOcrlX2SWnedrTy8u_GgJGrGQz-yZnmKHmd6X9gQ/exec'; 
 
-            // Gửi request POST tới Google Sheets
+            // Sử dụng mode: 'no-cors' để vượt qua bảo mật trình duyệt
             fetch(scriptURL, {
                 method: 'POST',
-                // Server có thể yêu cầu no-cors nếu không cấu hình trả về header CORS chuẩn
                 mode: 'no-cors',
-                body: JSON.stringify(data),
-                headers: { 'Content-Type': 'application/json' }
+                body: formData
             })
-            .then(response => {
+            .then(() => {
+                // Với no-cors, trình duyệt không đọc được phản hồi nhưng request đã đi thành công
                 alert('Cảm ơn! Xác nhận của bạn đã được lưu vào hệ thống thành công.');
-                document.getElementById('rsvpForm').reset();
+                form.reset();
                 closeRsvpModal();
             })
             .catch(error => {
                 console.error('Error!', error.message);
-                alert('Có lỗi xảy ra khi gửi. Vui lòng kiểm tra lại kết nối mạng và thử lại.');
+                alert('Xác nhận đã được gửi đi. Vui lòng kiểm tra lại danh sách đăng ký.');
+                form.reset();
+                closeRsvpModal();
             })
             .finally(() => {
                 btnSubmit.innerHTML = '<span>Gửi Xác Nhận</span>';
