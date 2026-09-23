@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin Sự Kiện - Trường Đại Học Tiền Giang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1a365d;
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.02) 75%, transparent 75%, transparent);
+            background-size: 40px 40px;
+        }
+        /* Custom scrollbar for modal */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md py-3 px-4 md:px-8 flex flex-wrap justify-between items-center sticky top-0 z-40">
+        <div class="flex items-center mb-2 md:mb-0">
+            <!-- Đã cập nhật logo đúng tên file -->
+            <img src="Logo ĐH Tiền Giang - TGU.png" alt="Logo" class="h-12 w-12 object-contain mr-3">
+            <div>
+                <div class="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">UBND TỈNH ĐỒNG THÁP</div>
+                <h1 class="text-sm md:text-lg font-bold text-blue-800 uppercase">Trường Đại Học Tiền Giang</h1>
+            </div>
+        </div>
+        
+        <div class="flex items-center space-x-2 md:space-x-4 text-xs md:text-sm">
+            <a href="#" class="flex items-center text-gray-600 hover:text-blue-800 bg-gray-100 px-3 py-2 rounded-full transition">
+                <i class="fa-regular fa-calendar-alt mr-2"></i> <span class="hidden md:inline">Chương trình hội nghị</span>
+            </a>
+            <a href="#" class="flex items-center text-gray-600 hover:text-blue-800 bg-gray-100 px-3 py-2 rounded-full transition">
+                <i class="fa-solid fa-image mr-2"></i> <span class="hidden md:inline">Bộ sưu tập ảnh</span>
+            </a>
+            <div class="flex items-center text-blue-800 font-medium bg-blue-50 px-3 py-2 rounded-full">
+                <i class="fa-solid fa-location-dot mr-2 text-red-500"></i> Đang ở: Sảnh Chính
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center p-4 md:p-8">
+        <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Cột Trái: Thông tin sự kiện -->
+            <div class="md:col-span-2 bg-white rounded-xl shadow-2xl overflow-hidden relative border-l-8 border-yellow-400">
+                <div class="p-6 md:p-8">
+                    <span class="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-4">THÔNG TIN SỰ KIỆN</span>
+                    
+                    <h2 class="text-2xl md:text-3xl font-black text-gray-800 mb-2 uppercase leading-tight" id="eventTitle">
+                        HỘI NGHỊ ĐÁNH GIÁ KẾT QUẢ THỰC HIỆN NGHỊ QUYẾT SỐ 57-NQ/TW
+                    </h2>
+                    <p class="text-gray-600 font-medium mb-6 uppercase tracking-wide">Trường Đại học Tiền Giang</p>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-start">
+                            <i class="fa-regular fa-clock text-red-600 mt-1 mr-3 w-5 text-center"></i>
+                            <span class="text-gray-700 font-medium" id="eventTime">08 giờ 30 phút, ngày 26 tháng 9 năm 2026 (thứ Bảy).</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-location-dot text-red-600 mt-1 mr-3 w-5 text-center"></i>
+                            <span class="text-gray-700 font-medium" id="eventLocation">Phòng Khánh tiết, Trường ĐH Tiền Giang</span>
+                        </div>
+                    </div>
+
+                    <!-- Bản đồ Google Maps nhúng -->
+                    <div class="rounded-lg overflow-hidden border border-gray-200 shadow-inner">
+                        <iframe 
+                            src="https://maps.google.com/maps?q=Trường+Đại+học+Tiền+Giang,+Cơ+sở+Thân+Cửu+Nghĩa,+Châu+Thành,+Tiền+Giang&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+                            width="100%" 
+                            height="250" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột Phải: Các nút chức năng -->
+            <div class="space-y-4 flex flex-col justify-center">
+                
+                <!-- Nút Đại Biểu & Khách Mời -->
+                <button onclick="openModal()" class="w-full bg-white rounded-xl shadow-lg p-4 flex items-center group hover:shadow-xl transition transform hover:-translate-y-1 text-left">
+                    <div class="bg-green-500 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl shadow-inner group-hover:bg-green-600 transition shrink-0">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-bold text-gray-800">Đại Biểu & Khách Mời</h3>
+                        <p class="text-xs text-gray-500 mt-1 line-clamp-2">Danh sách ban chỉ đạo, chuyên gia và các báo cáo viên.</p>
+                    </div>
+                </button>
+
+                <!-- Nút Tài Liệu Hội Nghị -->
+                <a href="#" class="w-full bg-white rounded-xl shadow-lg p-4 flex items-center group hover:shadow-xl transition transform hover:-translate-y-1 text-left">
+                    <div class="bg-yellow-500 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl shadow-inner group-hover:bg-yellow-600 transition shrink-0">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-bold text-gray-800">Tài Liệu Hội Nghị</h3>
+                        <p class="text-xs text-gray-500 mt-1 line-clamp-2">Kho lưu trữ slide trình bày, Nghị quyết 57-NQ/TW.</p>
+                    </div>
+                </a>
+
+                <!-- Nút Phòng Truyền Thống -->
+                <a href="#" class="w-full bg-white rounded-xl shadow-lg p-4 flex items-center group hover:shadow-xl transition transform hover:-translate-y-1 text-left">
+                    <div class="bg-purple-600 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl shadow-inner group-hover:bg-purple-700 transition shrink-0">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-bold text-gray-800">Phòng Truyền Thống</h3>
+                        <p class="text-xs text-gray-500 mt-1 line-clamp-2">Khám phá video giới thiệu về Trường ĐH Tiền Giang.</p>
+                    </div>
+                </a>
+                
+                <div class="text-center pt-2">
+                    <a href="#" class="text-white/60 text-xs hover:text-white transition">Vuốt để xem thêm thông tin sự kiện <i class="fa-solid fa-chevron-down ml-1"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Nút Chat nổi -->
+    <div class="fixed bottom-6 right-6 z-40">
+        <button class="bg-blue-600 text-white w-14 h-14 rounded-full shadow-2xl hover:bg-blue-700 transition flex items-center justify-center text-2xl">
+            <i class="fa-solid fa-comment-dots"></i>
+        </button>
+    </div>
+
+    <!-- MODAL DANH SÁCH KHÁCH MỜI -->
+    <div id="guestModal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col transform scale-95 transition-transform duration-300" id="modalContent">
+            
+            <!-- Header Modal -->
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-2xl">
+                <div>
+                    <h3 class="text-xl font-bold text-gray-800">Danh Sách Đại Biểu & Khách Mời</h3>
+                    <p class="text-sm text-gray-500" id="guestCount">Đang tải...</p>
+                </div>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 focus:outline-none transition text-2xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Body Modal (Danh sách) -->
+            <div class="p-6 overflow-y-auto custom-scrollbar flex-grow">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-600 text-sm uppercase">
+                                <th class="py-3 px-4 rounded-tl-lg font-semibold w-16 text-center">STT</th>
+                                <th class="py-3 px-4 font-semibold">Họ và Tên</th>
+                                <th class="py-3 px-4 font-semibold">Chức Vụ / Đơn vị</th>
+                                <th class="py-3 px-4 rounded-tr-lg font-semibold text-center">Phân Loại</th>
+                            </tr>
+                        </thead>
+                        <tbody id="guestListContainer" class="divide-y divide-gray-100">
+                            <!-- Danh sách sẽ được chèn vào đây qua JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Footer Modal -->
+            <div class="px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-2xl text-right">
+                <button onclick="closeModal()" class="bg-gray-800 hover:bg-gray-900 text-white px-5 py-2 rounded-lg font-medium transition shadow-md">
+                    Đóng cửa sổ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // CẤU HÌNH SỰ KIỆN (BẠN CHỈNH SỬA Ở ĐÂY)
+        // ==========================================
+        const eventConfig = {
+            title: "HỘI NGHỊ ĐÁNH GIÁ KẾT QUẢ THỰC HIỆN NGHỊ QUYẾT SỐ 57-NQ/TW",
+            time: "08 giờ 30 phút, ngày 26 tháng 9 năm 2026 (thứ Bảy).",
+            location: "Phòng Khánh tiết, Trường ĐH Tiền Giang",
+            
+            // Danh sách khách mời (Thêm, sửa, xóa các block ngoặc nhọn)
+            guests: [
+                { name: "TS. Lê Văn Hưởng", role: "Nguyên Phó Bí thư Tỉnh ủy, Nguyên Chủ tịch UBND tỉnh", type: "VIP" },
+                { name: "PGS.TS. Nguyễn Văn A", role: "Hiệu trưởng Trường Đại học Tiền Giang", type: "Chủ trì" },
+                { name: "TS. Trần Thị B", role: "Trưởng khoa CNTT", type: "Đại biểu" },
+                { name: "ThS. Lê Hoàng C", role: "Giám đốc TT Thông tin - Thư viện", type: "Đại biểu" },
+                { name: "Ông Phạm Văn D", role: "Sở Giáo dục và Đào tạo", type: "Khách mời" },
+                { name: "Bà Nguyễn Thị E", role: "Phòng Hành chính Tổng hợp", type: "Ban tổ chức" }
+            ]
+        };
+
+        // ==========================================
+        // LOGIC XỬ LÝ GIAO DIỆN
+        // ==========================================
+        
+        // Khởi tạo thông tin tĩnh
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('eventTitle').innerText = eventConfig.title;
+            document.getElementById('eventTime').innerText = eventConfig.time;
+            document.getElementById('eventLocation').innerText = eventConfig.location;
+            
+            renderGuestList();
+        });
+
+        // Render danh sách khách mời vào Modal
+        function renderGuestList() {
+            const container = document.getElementById('guestListContainer');
+            const countLabel = document.getElementById('guestCount');
+            
+            countLabel.innerText = `Tổng số: ${eventConfig.guests.length} đại biểu`;
+            container.innerHTML = '';
+
+            eventConfig.guests.forEach((guest, index) => {
+                // Đổi màu badge dựa trên loại khách
+                let badgeColor = 'bg-gray-100 text-gray-700';
+                if(guest.type === 'VIP') badgeColor = 'bg-red-100 text-red-700 font-bold';
+                else if(guest.type === 'Chủ trì') badgeColor = 'bg-yellow-100 text-yellow-700 font-bold';
+                else if(guest.type === 'Đại biểu') badgeColor = 'bg-blue-100 text-blue-700';
+                else if(guest.type === 'Ban tổ chức') badgeColor = 'bg-green-100 text-green-700';
+
+                const rowHtml = `
+                    <tr class="hover:bg-blue-50 transition">
+                        <td class="py-3 px-4 text-center text-gray-500 font-medium">${index + 1}</td>
+                        <td class="py-3 px-4 font-bold text-gray-800">${guest.name}</td>
+                        <td class="py-3 px-4 text-gray-600 text-sm">${guest.role}</td>
+                        <td class="py-3 px-4 text-center">
+                            <span class="text-xs px-2 py-1 rounded-full ${badgeColor}">${guest.type}</span>
+                        </td>
+                    </tr>
+                `;
+                container.insertAdjacentHTML('beforeend', rowHtml);
+            });
+        }
+
+        // Logic Mở/Đóng Modal
+        const modal = document.getElementById('guestModal');
+        const modalContent = document.getElementById('modalContent');
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            // Thêm độ trễ nhỏ để hiệu ứng fade-in mượt hơn
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95');
+            // Đợi CSS transition chạy xong mới ẩn modal
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Click ra ngoài modal để đóng
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
