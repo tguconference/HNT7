@@ -14,20 +14,10 @@
             background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.02) 75%, transparent 75%, transparent);
             background-size: 40px 40px;
         }
-        /* Custom scrollbar for modal */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1; 
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; 
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -35,7 +25,6 @@
     <!-- Header -->
     <header class="bg-white shadow-md py-3 px-4 md:px-8 flex flex-wrap justify-between items-center sticky top-0 z-40">
         <div class="flex items-center mb-2 md:mb-0">
-            <!-- Đã cập nhật logo đúng tên file -->
             <img src="Logo ĐH Tiền Giang - TGU.png" alt="Logo" class="h-12 w-12 object-contain mr-3">
             <div>
                 <div class="text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">UBND TỈNH ĐỒNG THÁP</div>
@@ -93,13 +82,17 @@
                             referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     </div>
+
+                    <!-- Nút Xác nhận tham dự (Dưới bản đồ) -->
+                    <button onclick="openRsvpModal()" class="w-full mt-6 bg-red-600 hover:bg-red-700 text-white font-bold text-lg py-3 px-4 rounded-xl shadow-lg transition transform hover:-translate-y-1 flex justify-center items-center">
+                        <i class="fa-solid fa-clipboard-check mr-2"></i> XÁC NHẬN THAM DỰ HỘI NGHỊ
+                    </button>
                 </div>
             </div>
 
             <!-- Cột Phải: Các nút chức năng -->
             <div class="space-y-4 flex flex-col justify-center">
                 
-                <!-- Nút Đại Biểu & Khách Mời -->
                 <button onclick="openModal()" class="w-full bg-white rounded-xl shadow-lg p-4 flex items-center group hover:shadow-xl transition transform hover:-translate-y-1 text-left">
                     <div class="bg-green-500 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl shadow-inner group-hover:bg-green-600 transition shrink-0">
                         <i class="fa-solid fa-users"></i>
@@ -110,7 +103,6 @@
                     </div>
                 </button>
 
-                <!-- Nút Tài Liệu Hội Nghị -->
                 <a href="#" class="w-full bg-white rounded-xl shadow-lg p-4 flex items-center group hover:shadow-xl transition transform hover:-translate-y-1 text-left">
                     <div class="bg-yellow-500 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl shadow-inner group-hover:bg-yellow-600 transition shrink-0">
                         <i class="fa-solid fa-book-bookmark"></i>
@@ -121,7 +113,6 @@
                     </div>
                 </a>
 
-                <!-- Nút Phòng Truyền Thống -->
                 <a href="#" class="w-full bg-white rounded-xl shadow-lg p-4 flex items-center group hover:shadow-xl transition transform hover:-translate-y-1 text-left">
                     <div class="bg-purple-600 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl shadow-inner group-hover:bg-purple-700 transition shrink-0">
                         <i class="fa-solid fa-building-columns"></i>
@@ -150,8 +141,6 @@
     <!-- MODAL DANH SÁCH KHÁCH MỜI -->
     <div id="guestModal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col transform scale-95 transition-transform duration-300" id="modalContent">
-            
-            <!-- Header Modal -->
             <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-2xl">
                 <div>
                     <h3 class="text-xl font-bold text-gray-800">Danh Sách Đại Biểu & Khách Mời</h3>
@@ -161,8 +150,6 @@
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-
-            <!-- Body Modal (Danh sách) -->
             <div class="p-6 overflow-y-auto custom-scrollbar flex-grow">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -175,18 +162,62 @@
                             </tr>
                         </thead>
                         <tbody id="guestListContainer" class="divide-y divide-gray-100">
-                            <!-- Danh sách sẽ được chèn vào đây qua JS -->
                         </tbody>
                     </table>
                 </div>
             </div>
-            
-            <!-- Footer Modal -->
             <div class="px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-2xl text-right">
                 <button onclick="closeModal()" class="bg-gray-800 hover:bg-gray-900 text-white px-5 py-2 rounded-lg font-medium transition shadow-md">
                     Đóng cửa sổ
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL XÁC NHẬN THAM DỰ (RSVP) -->
+    <div id="rsvpModal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg transform scale-95 transition-transform duration-300" id="rsvpModalContent">
+            
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-blue-50 rounded-t-2xl">
+                <h3 class="text-xl font-bold text-blue-900">Xác Nhận Tham Dự</h3>
+                <button onclick="closeRsvpModal()" class="text-gray-400 hover:text-red-500 transition text-2xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="rsvpForm" onsubmit="submitRsvpForm(event)" class="p-6">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Họ và Tên *</label>
+                        <input type="text" id="rsvpName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: Lê Văn Hưởng">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Chức vụ / Đơn vị công tác *</label>
+                        <input type="text" id="rsvpUnit" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: UBND Tỉnh / Trường ĐH Tiền Giang">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Khả năng tham dự *</label>
+                        <select id="rsvpStatus" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white">
+                            <option value="Tham dự">Có, tôi sẽ tham dự</option>
+                            <option value="Không tham dự">Rất tiếc, tôi không thể tham dự</option>
+                            <option value="Cử người đi thay">Tôi bận, sẽ cử đại diện đi thay</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ghi chú thêm (Không bắt buộc)</label>
+                        <textarea id="rsvpNote" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="VD: Thông tin người đi thay, yêu cầu hỗ trợ..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <button type="submit" id="btnSubmitForm" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-md flex justify-center items-center">
+                        <span>Gửi Xác Nhận</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -198,8 +229,6 @@
             title: "HỘI NGHỊ ĐÁNH GIÁ KẾT QUẢ THỰC HIỆN NGHỊ QUYẾT SỐ 57-NQ/TW",
             time: "08 giờ 30 phút, ngày 26 tháng 9 năm 2026 (thứ Bảy).",
             location: "Phòng Khánh tiết, Trường ĐH Tiền Giang",
-            
-            // Danh sách khách mời (Thêm, sửa, xóa các block ngoặc nhọn)
             guests: [
                 { name: "TS. Lê Văn Hưởng", role: "Nguyên Phó Bí thư Tỉnh ủy, Nguyên Chủ tịch UBND tỉnh", type: "VIP" },
                 { name: "PGS.TS. Nguyễn Văn A", role: "Hiệu trưởng Trường Đại học Tiền Giang", type: "Chủ trì" },
@@ -211,19 +240,18 @@
         };
 
         // ==========================================
-        // LOGIC XỬ LÝ GIAO DIỆN
+        // KHỞI TẠO THÔNG TIN
         // ==========================================
-        
-        // Khởi tạo thông tin tĩnh
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('eventTitle').innerText = eventConfig.title;
             document.getElementById('eventTime').innerText = eventConfig.time;
             document.getElementById('eventLocation').innerText = eventConfig.location;
-            
             renderGuestList();
         });
 
-        // Render danh sách khách mời vào Modal
+        // ==========================================
+        // LOGIC MODAL DANH SÁCH KHÁCH MỜI
+        // ==========================================
         function renderGuestList() {
             const container = document.getElementById('guestListContainer');
             const countLabel = document.getElementById('guestCount');
@@ -232,7 +260,6 @@
             container.innerHTML = '';
 
             eventConfig.guests.forEach((guest, index) => {
-                // Đổi màu badge dựa trên loại khách
                 let badgeColor = 'bg-gray-100 text-gray-700';
                 if(guest.type === 'VIP') badgeColor = 'bg-red-100 text-red-700 font-bold';
                 else if(guest.type === 'Chủ trì') badgeColor = 'bg-yellow-100 text-yellow-700 font-bold';
@@ -253,13 +280,11 @@
             });
         }
 
-        // Logic Mở/Đóng Modal
         const modal = document.getElementById('guestModal');
         const modalContent = document.getElementById('modalContent');
 
         function openModal() {
             modal.classList.remove('hidden');
-            // Thêm độ trễ nhỏ để hiệu ứng fade-in mượt hơn
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
                 modalContent.classList.remove('scale-95');
@@ -269,18 +294,87 @@
         function closeModal() {
             modal.classList.add('opacity-0');
             modalContent.classList.add('scale-95');
-            // Đợi CSS transition chạy xong mới ẩn modal
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
 
-        // Click ra ngoài modal để đóng
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
+            if (e.target === modal) closeModal();
         });
+
+        // ==========================================
+        // LOGIC MODAL RSVP (XÁC NHẬN THAM DỰ)
+        // ==========================================
+        const rsvpModal = document.getElementById('rsvpModal');
+        const rsvpModalContent = document.getElementById('rsvpModalContent');
+
+        function openRsvpModal() {
+            rsvpModal.classList.remove('hidden');
+            setTimeout(() => {
+                rsvpModal.classList.remove('opacity-0');
+                rsvpModalContent.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeRsvpModal() {
+            rsvpModal.classList.add('opacity-0');
+            rsvpModalContent.classList.add('scale-95');
+            setTimeout(() => { rsvpModal.classList.add('hidden'); }, 300);
+        }
+
+        rsvpModal.addEventListener('click', (e) => {
+            if (e.target === rsvpModal) closeRsvpModal();
+        });
+
+        // Xử lý gửi form
+        function submitRsvpForm(event) {
+            event.preventDefault(); 
+            
+            const btnSubmit = document.getElementById('btnSubmitForm');
+            btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang gửi...';
+            btnSubmit.disabled = true;
+
+            const data = {
+                name: document.getElementById('rsvpName').value,
+                unit: document.getElementById('rsvpUnit').value,
+                status: document.getElementById('rsvpStatus').value,
+                note: document.getElementById('rsvpNote').value
+            };
+
+            // ! QUAN TRỌNG: THAY LINK WEB APP CỦA BẠN VÀO ĐÂY
+            // Nếu chưa có link, form sẽ chỉ test mô phỏng gửi thành công.
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwD-q5a960UGaA1IvUovZ365Vawn5gOcrlX2SWnedrTy8u_GgJGrGQz-yZnmKHmd6X9gQ/exec'; 
+            
+            if(scriptURL === 'https://script.google.com/macros/s/AKfycbwD-q5a960UGaA1IvUovZ365Vawn5gOcrlX2SWnedrTy8u_GgJGrGQz-yZnmKHmd6X9gQ/exec') {
+                // Chế độ mô phỏng khi chưa kết nối Google Sheets
+                setTimeout(() => {
+                    alert(`(Mô phỏng) Cảm ơn ${data.name}! Xác nhận của bạn đã được ghi nhận.`);
+                    document.getElementById('rsvpForm').reset();
+                    closeRsvpModal();
+                    btnSubmit.innerHTML = '<span>Gửi Xác Nhận</span>';
+                    btnSubmit.disabled = false;
+                }, 1000);
+                return;
+            }
+
+            // Gửi dữ liệu thật lên Google Sheets
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .then(response => {
+                alert('Cảm ơn! Xác nhận của bạn đã được lưu vào hệ thống.');
+                document.getElementById('rsvpForm').reset();
+                closeRsvpModal();
+            })
+            .catch(error => {
+                alert('Có lỗi xảy ra, vui lòng thử lại.');
+            })
+            .finally(() => {
+                btnSubmit.innerHTML = '<span>Gửi Xác Nhận</span>';
+                btnSubmit.disabled = false;
+            });
+        }
     </script>
 </body>
 </html>
