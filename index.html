@@ -83,7 +83,7 @@
                         </iframe>
                     </div>
 
-                    <!-- Nút Xác nhận tham dự (Dưới bản đồ) -->
+                    <!-- Nút Xác nhận tham dự -->
                     <button onclick="openRsvpModal()" class="w-full mt-6 bg-red-600 hover:bg-red-700 text-white font-bold text-lg py-3 px-4 rounded-xl shadow-lg transition transform hover:-translate-y-1 flex justify-center items-center">
                         <i class="fa-solid fa-clipboard-check mr-2"></i> XÁC NHẬN THAM DỰ HỘI NGHỊ
                     </button>
@@ -223,10 +223,10 @@
 
     <script>
         // ==========================================
-        // CẤU HÌNH SỰ KIỆN (BẠN CHỈNH SỬA Ở ĐÂY)
+        // CẤU HÌNH SỰ KIỆN 
         // ==========================================
         const eventConfig = {
-            title: "Trò chuyện cùng TS. Lê Văn Hưởng",
+            title: "HỘI NGHỊ ĐÁNH GIÁ KẾT QUẢ THỰC HIỆN NGHỊ QUYẾT SỐ 57-NQ/TW",
             time: "08 giờ 30 phút, ngày 26 tháng 9 năm 2026 (thứ Bảy).",
             location: "Phòng Khánh tiết, Trường ĐH Tiền Giang",
             guests: [
@@ -239,9 +239,7 @@
             ]
         };
 
-        // ==========================================
-        // KHỞI TẠO THÔNG TIN
-        // ==========================================
+        // Khởi tạo
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('eventTitle').innerText = eventConfig.title;
             document.getElementById('eventTime').innerText = eventConfig.time;
@@ -302,7 +300,7 @@
         });
 
         // ==========================================
-        // LOGIC MODAL RSVP (XÁC NHẬN THAM DỰ)
+        // LOGIC MODAL RSVP & KẾT NỐI GOOGLE SHEETS
         // ==========================================
         const rsvpModal = document.getElementById('rsvpModal');
         const rsvpModalContent = document.getElementById('rsvpModalContent');
@@ -340,35 +338,25 @@
                 note: document.getElementById('rsvpNote').value
             };
 
-            // ! QUAN TRỌNG: THAY LINK WEB APP CỦA BẠN VÀO ĐÂY
-            // Nếu chưa có link, form sẽ chỉ test mô phỏng gửi thành công.
+            // Link Web App Google Script bạn vừa cung cấp
             const scriptURL = 'https://script.google.com/macros/s/AKfycbwD-q5a960UGaA1IvUovZ365Vawn5gOcrlX2SWnedrTy8u_GgJGrGQz-yZnmKHmd6X9gQ/exec'; 
-            
-            if(scriptURL === 'https://script.google.com/macros/s/AKfycbwD-q5a960UGaA1IvUovZ365Vawn5gOcrlX2SWnedrTy8u_GgJGrGQz-yZnmKHmd6X9gQ/exec') {
-                // Chế độ mô phỏng khi chưa kết nối Google Sheets
-                setTimeout(() => {
-                    alert(`(Mô phỏng) Cảm ơn ${data.name}! Xác nhận của bạn đã được ghi nhận.`);
-                    document.getElementById('rsvpForm').reset();
-                    closeRsvpModal();
-                    btnSubmit.innerHTML = '<span>Gửi Xác Nhận</span>';
-                    btnSubmit.disabled = false;
-                }, 1000);
-                return;
-            }
 
-            // Gửi dữ liệu thật lên Google Sheets
+            // Gửi request POST tới Google Sheets
             fetch(scriptURL, {
                 method: 'POST',
+                // Server có thể yêu cầu no-cors nếu không cấu hình trả về header CORS chuẩn
+                mode: 'no-cors',
                 body: JSON.stringify(data),
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                headers: { 'Content-Type': 'application/json' }
             })
             .then(response => {
-                alert('Cảm ơn! Xác nhận của bạn đã được lưu vào hệ thống.');
+                alert('Cảm ơn! Xác nhận của bạn đã được lưu vào hệ thống thành công.');
                 document.getElementById('rsvpForm').reset();
                 closeRsvpModal();
             })
             .catch(error => {
-                alert('Có lỗi xảy ra, vui lòng thử lại.');
+                console.error('Error!', error.message);
+                alert('Có lỗi xảy ra khi gửi. Vui lòng kiểm tra lại kết nối mạng và thử lại.');
             })
             .finally(() => {
                 btnSubmit.innerHTML = '<span>Gửi Xác Nhận</span>';
