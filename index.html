@@ -19,10 +19,9 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
-        /* Aspect ratio for iframe */
         .video-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
+            padding-bottom: 56.25%; 
             height: 0;
             overflow: hidden;
             border-radius: 0.5rem;
@@ -66,7 +65,7 @@
         <!-- ============================================== -->
         <div id="viewLobby" class="w-full max-w-7xl grid grid-cols-1 md:grid-cols-3 gap-7 transition-all duration-500">
             
-            <!-- Cột Trái: Thông tin sự kiện -->
+            <!-- Cột Trái -->
             <div class="md:col-span-2 bg-white rounded-xl shadow-2xl overflow-hidden relative border-l-8 border-yellow-400">
                 <div class="p-6 md:p-8">
                     
@@ -113,7 +112,7 @@
                 </div>
             </div>
 
-            <!-- Cột Phải: Các nút chức năng -->
+            <!-- Cột Phải -->
             <div class="space-y-4 flex flex-col justify-center">
                 <button onclick="openModal()" class="w-full bg-white rounded-xl shadow-lg p-4 flex items-center group hover:shadow-xl transition transform hover:-translate-y-1 text-left">
                     <div class="bg-green-500 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl shadow-inner group-hover:bg-green-600 transition shrink-0">
@@ -174,9 +173,29 @@
 
     <!-- Nút Chat nổi -->
     <div class="fixed bottom-6 right-6 z-40">
-        <button class="bg-blue-600 text-white w-14 h-14 rounded-full shadow-2xl hover:bg-blue-700 transition flex items-center justify-center text-2xl">
+        <button onclick="openChatModal()" class="bg-blue-600 text-white w-14 h-14 rounded-full shadow-2xl hover:bg-blue-700 transition flex items-center justify-center text-2xl animate-bounce">
             <i class="fa-solid fa-comment-dots"></i>
         </button>
+    </div>
+
+    <!-- MODAL ĐẶT CÂU HỎI -->
+    <div id="chatModal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg transform scale-95 transition-transform duration-300" id="chatModalContent">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-blue-50 rounded-t-2xl">
+                <h3 class="text-xl font-bold text-blue-900"><i class="fa-solid fa-paper-plane mr-2"></i>Gửi Câu Hỏi Cho Diễn Giả</h3>
+                <button onclick="closeChatModal()" class="text-gray-400 hover:text-red-500 transition text-2xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="chatForm" onsubmit="submitChatForm(event)" class="p-6">
+                <!-- Trường ẩn báo hiệu đây là form Đặt câu hỏi -->
+                <input type="hidden" name="formType" value="chat">
+                <div class="space-y-4">
+                    <div><label class="block text-sm font-medium text-gray-700 mb-1">Họ và Tên *</label><input type="text" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></div>
+                    <div><label class="block text-sm font-medium text-gray-700 mb-1">Đơn vị công tác *</label><input type="text" name="unit" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></div>
+                    <div><label class="block text-sm font-medium text-gray-700 mb-1">Nội dung câu hỏi *</label><textarea name="question" required rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Nhập câu hỏi của bạn..."></textarea></div>
+                </div>
+                <div class="mt-6"><button type="submit" id="btnSubmitChat" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-md">Gửi Câu Hỏi</button></div>
+            </form>
+        </div>
     </div>
 
     <!-- MODAL CHƯƠNG TRÌNH HỘI NGHỊ -->
@@ -241,6 +260,8 @@
                 <button onclick="closeRsvpModal()" class="text-gray-400 hover:text-red-500 transition text-2xl"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="rsvpForm" onsubmit="submitRsvpForm(event)" class="p-6">
+                <!-- Trường ẩn báo hiệu form RSVP -->
+                <input type="hidden" name="formType" value="rsvp">
                 <div class="space-y-4">
                     <div><label class="block text-sm font-medium text-gray-700 mb-1">Họ và Tên *</label><input type="text" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></div>
                     <div><label class="block text-sm font-medium text-gray-700 mb-1">Đơn vị công tác *</label><input type="text" name="unit" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></div>
@@ -261,8 +282,11 @@
 
     <script>
         // ==========================================
-        // CẤU HÌNH SỰ KIỆN & PLAYLIST VIDEO
+        // CẤU HÌNH SỰ KIỆN & APP SCRIPT MỚI
         // ==========================================
+        // Đã cập nhật URL Google Apps Script mới theo yêu cầu
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwRkGBmt3tKOg4974_QbgTkVca9GCuL3xIciHIFO4sk559xrIkQoQ4aBUGWp8i7WH06jQ/exec'; 
+
         const eventConfig = {
             title: "Gặp gỡ, trao đổi giữa viên chức Trường ĐHTG với TS.Lê Văn Hưởng",
             time: "08 giờ 30 phút, ngày 26 tháng 9 năm 2026 (thứ Bảy).",
@@ -272,8 +296,6 @@
                 { id: "Gku0_gDI0jE", title: "Dự án Thanh Âm đạt giải Ba tại Cuộc thi Đổi mới sáng tạo thành phố", duration: "03:20" },
                 { id: "KCCzdceBY0o", title: "Trường Đại học Tiền Giang đẩy mạnh hợp tác quốc tế", duration: "02:58" }
             ],
-            
-            // DANH SÁCH KHÁCH MỜI
             guests: [
                 { name: "Nguyễn Hoàng Vũ", role: "Bí thư Đảng ủy", type: "Chủ trì" },
                 { name: "Lê Minh Tùng", role: "Q.Hiệu trưởng", type: "Chủ trì" },
@@ -447,32 +469,52 @@
             });
         }
 
+        // ====== MODAL ĐẠI BIỂU ======
         const modal = document.getElementById('guestModal'), modalContent = document.getElementById('modalContent');
         function openModal() { modal.classList.remove('hidden'); setTimeout(() => { modal.classList.remove('opacity-0'); modalContent.classList.remove('scale-95'); }, 10); }
         function closeModal() { modal.classList.add('opacity-0'); modalContent.classList.add('scale-95'); setTimeout(() => { modal.classList.add('hidden'); }, 300); }
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-        const rsvpModal = document.getElementById('rsvpModal'), rsvpModalContent = document.getElementById('rsvpModalContent');
-        function openRsvpModal() { rsvpModal.classList.remove('hidden'); setTimeout(() => { rsvpModal.classList.remove('opacity-0'); rsvpModalContent.classList.remove('scale-95'); }, 10); }
-        function closeRsvpModal() { rsvpModal.classList.add('opacity-0'); rsvpModalContent.classList.add('scale-95'); setTimeout(() => { rsvpModal.classList.add('hidden'); }, 300); }
-        rsvpModal.addEventListener('click', (e) => { if (e.target === rsvpModal) closeRsvpModal(); });
-
+        // ====== MODAL CHƯƠNG TRÌNH ======
         const programModal = document.getElementById('programModal'), programModalContent = document.getElementById('programModalContent');
         function openProgramModal() { programModal.classList.remove('hidden'); setTimeout(() => { programModal.classList.remove('opacity-0'); programModalContent.classList.remove('scale-95'); }, 10); }
         function closeProgramModal() { programModal.classList.add('opacity-0'); programModalContent.classList.add('scale-95'); setTimeout(() => { programModal.classList.add('hidden'); }, 300); }
         programModal.addEventListener('click', (e) => { if (e.target === programModal) closeProgramModal(); });
+
+        // ====== MODAL RSVP (XÁC NHẬN THAM DỰ) ======
+        const rsvpModal = document.getElementById('rsvpModal'), rsvpModalContent = document.getElementById('rsvpModalContent');
+        function openRsvpModal() { rsvpModal.classList.remove('hidden'); setTimeout(() => { rsvpModal.classList.remove('opacity-0'); rsvpModalContent.classList.remove('scale-95'); }, 10); }
+        function closeRsvpModal() { rsvpModal.classList.add('opacity-0'); rsvpModalContent.classList.add('scale-95'); setTimeout(() => { rsvpModal.classList.add('hidden'); }, 300); }
+        rsvpModal.addEventListener('click', (e) => { if (e.target === rsvpModal) closeRsvpModal(); });
 
         function submitRsvpForm(event) {
             event.preventDefault(); 
             const btnSubmit = document.getElementById('btnSubmitForm');
             btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang gửi...'; btnSubmit.disabled = true;
             const form = document.getElementById('rsvpForm');
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbwucrvLmBknl_vM5CjsoA2UBBRTipIFCRkDlYynyQDbtUGPU4p4y_CYrVBlB7s6odnGsg/exec'; 
-
+            
             fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: new FormData(form) })
             .then(() => { alert('Cảm ơn! Xác nhận của bạn đã được lưu vào hệ thống thành công.'); form.reset(); closeRsvpModal(); })
             .catch(error => { alert('Đã gửi thông tin.'); form.reset(); closeRsvpModal(); })
             .finally(() => { btnSubmit.innerHTML = 'Gửi Xác Nhận'; btnSubmit.disabled = false; });
+        }
+
+        // ====== MODAL ĐẶT CÂU HỎI (CHAT) ======
+        const chatModal = document.getElementById('chatModal'), chatModalContent = document.getElementById('chatModalContent');
+        function openChatModal() { chatModal.classList.remove('hidden'); setTimeout(() => { chatModal.classList.remove('opacity-0'); chatModalContent.classList.remove('scale-95'); }, 10); }
+        function closeChatModal() { chatModal.classList.add('opacity-0'); chatModalContent.classList.add('scale-95'); setTimeout(() => { chatModal.classList.add('hidden'); }, 300); }
+        chatModal.addEventListener('click', (e) => { if (e.target === chatModal) closeChatModal(); });
+
+        function submitChatForm(event) {
+            event.preventDefault(); 
+            const btnSubmit = document.getElementById('btnSubmitChat');
+            btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang gửi...'; btnSubmit.disabled = true;
+            const form = document.getElementById('chatForm');
+            
+            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: new FormData(form) })
+            .then(() => { alert('Cảm ơn! Câu hỏi của bạn đã được gửi thành công.'); form.reset(); closeChatModal(); })
+            .catch(error => { alert('Đã gửi câu hỏi.'); form.reset(); closeChatModal(); })
+            .finally(() => { btnSubmit.innerHTML = 'Gửi Câu Hỏi'; btnSubmit.disabled = false; });
         }
     </script>
 </body>
