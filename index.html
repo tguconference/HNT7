@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chương trình gặp gỡ trao đổi giữa viên chức Trường ĐHTG với TS. Lê Văn Hưởng Nguyên</title>
+    <title>Chương trình gặp gỡ, trao đổi giữa viên chức Trường Đại học Tiền Giang với TS. Lê Văn Hưởng</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -52,9 +52,6 @@
             <button onclick="openProgramModal()" class="flex items-center text-gray-600 hover:text-blue-800 bg-gray-100 px-3 py-2 rounded-full transition">
                 <i class="fa-regular fa-calendar-alt mr-2"></i> <span class="hidden md:inline">Chương trình hội nghị</span>
             </button>
-            <a href="#" class="flex items-center text-gray-600 hover:text-blue-800 bg-gray-100 px-3 py-2 rounded-full transition">
-                <i class="fa-solid fa-image mr-2"></i> <span class="hidden md:inline">Bộ sưu tập ảnh</span>
-            </a>
             <div id="headerLocation" class="flex items-center text-blue-800 font-medium bg-blue-50 px-3 py-2 rounded-full transition-all duration-300">
                 <i class="fa-solid fa-location-dot mr-2 text-red-500"></i> <span id="locationText">Đang ở: Sảnh Chính</span>
             </div>
@@ -127,16 +124,6 @@
                         <p class="text-xs text-gray-500 mt-1 line-clamp-2">Danh sách ban chỉ đạo, chuyên gia và các báo cáo viên.</p>
                     </div>
                 </button>
-
-                <a href="#" class="w-full bg-white rounded-xl shadow-lg p-4 flex items-center group hover:shadow-xl transition transform hover:-translate-y-1 text-left">
-                    <div class="bg-yellow-500 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl shadow-inner group-hover:bg-yellow-600 transition shrink-0">
-                        <i class="fa-solid fa-book-bookmark"></i>
-                    </div>
-                    <div class="ml-4">
-                        <h3 class="text-lg font-bold text-gray-800">Tài Liệu Hội Nghị</h3>
-                        <p class="text-xs text-gray-500 mt-1 line-clamp-2">Kho lưu trữ slide trình bày, tài liệu sự kiện.</p>
-                    </div>
-                </a>
 
                 <button onclick="switchView('gallery')" class="w-full bg-white rounded-xl shadow-lg p-4 flex items-center group hover:shadow-xl transition transform hover:-translate-y-1 text-left">
                     <div class="bg-purple-600 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl shadow-inner group-hover:bg-purple-700 transition shrink-0">
@@ -286,7 +273,7 @@
                 { id: "KCCzdceBY0o", title: "Trường Đại học Tiền Giang đẩy mạnh hợp tác quốc tế", duration: "02:58" }
             ],
             
-            // DANH SÁCH KHÁCH MỜI ĐÃ ĐƯỢC BỔ SUNG TS LÊ VĂN HƯỞNG
+            // DANH SÁCH KHÁCH MỜI
             guests: [
                 { name: "Nguyễn Hoàng Vũ", role: "Bí thư Đảng ủy", type: "Chủ trì" },
                 { name: "Lê Minh Tùng", role: "Q.Hiệu trưởng", type: "Chủ trì" },
@@ -460,19 +447,16 @@
             });
         }
 
-        // Logic Modal Khách Mời
         const modal = document.getElementById('guestModal'), modalContent = document.getElementById('modalContent');
         function openModal() { modal.classList.remove('hidden'); setTimeout(() => { modal.classList.remove('opacity-0'); modalContent.classList.remove('scale-95'); }, 10); }
         function closeModal() { modal.classList.add('opacity-0'); modalContent.classList.add('scale-95'); setTimeout(() => { modal.classList.add('hidden'); }, 300); }
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-        // Logic Modal RSVP
         const rsvpModal = document.getElementById('rsvpModal'), rsvpModalContent = document.getElementById('rsvpModalContent');
         function openRsvpModal() { rsvpModal.classList.remove('hidden'); setTimeout(() => { rsvpModal.classList.remove('opacity-0'); rsvpModalContent.classList.remove('scale-95'); }, 10); }
         function closeRsvpModal() { rsvpModal.classList.add('opacity-0'); rsvpModalContent.classList.add('scale-95'); setTimeout(() => { rsvpModal.classList.add('hidden'); }, 300); }
         rsvpModal.addEventListener('click', (e) => { if (e.target === rsvpModal) closeRsvpModal(); });
 
-        // Logic Modal CHƯƠNG TRÌNH HỘI NGHỊ 
         const programModal = document.getElementById('programModal'), programModalContent = document.getElementById('programModalContent');
         function openProgramModal() { programModal.classList.remove('hidden'); setTimeout(() => { programModal.classList.remove('opacity-0'); programModalContent.classList.remove('scale-95'); }, 10); }
         function closeProgramModal() { programModal.classList.add('opacity-0'); programModalContent.classList.add('scale-95'); setTimeout(() => { programModal.classList.add('hidden'); }, 300); }
