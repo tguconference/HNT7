@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông Tin Sự Kiện - Trường Đại Học Tiền Giang</title>
+    <title>Chương trình gặp gỡ trao đổi giữa viên chức Trường ĐHTG với TS. Lê Văn Hưởng Nguyên</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -89,7 +89,7 @@
                             <h2 class="text-2xl md:text-3xl font-black text-gray-800 mb-2 uppercase leading-tight" id="eventTitle">
                                 Gặp gỡ, trao đổi giữa viên chức Trường ĐHTG với TS.Lê Văn Hưởng
                             </h2>
-                            <p class="text-gray-600 font-medium uppercase tracking-wide">Nguyên Phó Bí thư tỉnh uỷ, nguyên chủ tịch ubnd tỉnh Tiền Giang</p>
+                            <p class="text-gray-600 font-medium uppercase tracking-wide">Nguyên Bí thư tỉnh uỷ, nguyên chủ tịch ubnd tỉnh Tiền Giang</p>
                         </div>
                     </div>
                     
@@ -98,11 +98,11 @@
                     <div class="space-y-4 mb-6">
                         <div class="flex items-start">
                             <i class="fa-regular fa-clock text-red-600 mt-1 mr-3 w-5 text-center"></i>
-                            <span class="text-gray-700 font-medium" id="eventTime">08 giờ 15 phút, thứ Bảy, ngày 26 tháng 9 năm 2026.</span>
+                            <span class="text-gray-700 font-medium" id="eventTime">08 giờ 30 phút, ngày 26 tháng 9 năm 2026 (thứ Bảy).</span>
                         </div>
                         <div class="flex items-start">
                             <i class="fa-solid fa-location-dot text-red-600 mt-1 mr-3 w-5 text-center"></i>
-                            <span class="text-gray-700 font-medium" id="eventLocation">Phòng Khánh tiết, Trường Đại học Tiền Giang</span>
+                            <span class="text-gray-700 font-medium" id="eventLocation">Phòng Khánh tiết, Trường ĐH Tiền Giang</span>
                         </div>
                     </div>
 
@@ -219,7 +219,7 @@
 
     <!-- MODAL DANH SÁCH KHÁCH MỜI -->
     <div id="guestModal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col transform scale-95 transition-transform duration-300" id="modalContent">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col transform scale-95 transition-transform duration-300" id="modalContent">
             <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-2xl">
                 <div>
                     <h3 class="text-xl font-bold text-gray-800">Danh Sách Đại Biểu & Khách Mời</h3>
@@ -230,7 +230,7 @@
             <div class="p-6 overflow-y-auto custom-scrollbar flex-grow">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-gray-100 text-gray-600 text-sm uppercase">
+                        <tr class="bg-gray-100 text-gray-600 text-sm uppercase sticky top-0 shadow-sm z-10">
                             <th class="py-3 px-4 w-16 text-center">STT</th>
                             <th class="py-3 px-4">Họ và Tên</th>
                             <th class="py-3 px-4">Chức Vụ / Đơn vị</th>
@@ -258,10 +258,10 @@
                     <div><label class="block text-sm font-medium text-gray-700 mb-1">Họ và Tên *</label><input type="text" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></div>
                     <div><label class="block text-sm font-medium text-gray-700 mb-1">Đơn vị công tác *</label><input type="text" name="unit" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Xác nhận tham dự *</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Khả năng tham dự *</label>
                         <select name="status" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white">
-                            <option value="Tham dự">Có, tôi tham dự</option>
-                            <option value="Không tham dự">Không tham dự</option>
+                            <option value="Tham dự">Có, tôi sẽ tham dự</option>
+                            <option value="Không tham dự">Không thể tham dự</option>
                             <option value="Cử người đi thay">Cử đại diện đi thay</option>
                         </select>
                     </div>
@@ -278,22 +278,99 @@
         // ==========================================
         const eventConfig = {
             title: "Gặp gỡ, trao đổi giữa viên chức Trường ĐHTG với TS.Lê Văn Hưởng",
-            time: "08 giờ 15 phút, thứ Bảy, ngày 26 tháng 9 năm 2026.",
-            location: "Phòng Khánh tiết, Trường Đại học Tiền Giang",
+            time: "08 giờ 30 phút, ngày 26 tháng 9 năm 2026 (thứ Bảy).",
+            location: "Phòng Khánh tiết, Trường ĐH Tiền Giang",
             videos: [
                 { id: "DWNYvUjl6Rc", title: "KỶ NIỆM 21 NĂM NGÀY THÀNH LẬP TRƯỜNG ĐẠI HỌC TIỀN GIANG", duration: "07:40" },
                 { id: "Gku0_gDI0jE", title: "Dự án Thanh Âm đạt giải Ba tại Cuộc thi Đổi mới sáng tạo thành phố", duration: "03:20" },
                 { id: "KCCzdceBY0o", title: "Trường Đại học Tiền Giang đẩy mạnh hợp tác quốc tế", duration: "02:58" }
             ],
             
-            // CẬP NHẬT DANH SÁCH KHÁCH MỜI
+            // DANH SÁCH KHÁCH MỜI ĐÃ ĐƯỢC BỔ SUNG TS LÊ VĂN HƯỞNG
             guests: [
-                { name: "PGS.TS. Lê Minh Tùng", role: "Quyền Hiệu trưởng Trường Đại học Tiền Giang", type: "Chủ trì" },
-                { name: "TS. Lê Văn Hưởng", role: "Nguyên Chủ tịch UBND tỉnh Tiền Giang", type: "Khách mời" },
-                { name: "Ths. Đinh Quốc Cường", role: "Trưởng Phòng Tổ chức - Hành chính", type: "Ban tổ chức" },
-                { name: "ThS. Nguyễn Thị Kim Xuyến", role: "Giám đốc TT. Thông tin - Thư viện", type: "Đại biểu" },
-                { name: "Ths. Trần Huy Long", role: "Phó Giám đốc TT. Thông tin - Thư viện", type: "Đại biểu" },
-                { name: "Ths. Trần Thị Tiên", role: "Trưởng Phòng Kế hoạch - Tài chính", type: "Đại biểu" }
+                { name: "Nguyễn Hoàng Vũ", role: "Bí thư Đảng ủy", type: "Chủ trì" },
+                { name: "Lê Minh Tùng", role: "Q.Hiệu trưởng", type: "Chủ trì" },
+                { name: "Lê Thị Kim Loan", role: "Phó Hiệu trưởng", type: "Chủ trì" },
+                { name: "Cao Nguyên Thi", role: "Phó Hiệu trưởng", type: "Chủ trì" },
+                { name: "TS. Lê Văn Hưởng", role: "Nguyên chủ tịch UBND tỉnh Tiền Giang", type: "Khách mời" },
+                { name: "Đinh Quốc Cường", role: "Trưởng Phòng TCHC", type: "Ban tổ chức" },
+                { name: "Trần Thị Tiên", role: "Trưởng Phòng KHTC", type: "Ban tổ chức" },
+                { name: "Dương Văn Hiếu", role: "Trưởng Phòng QLĐT", type: "Đại biểu" },
+                { name: "Lê Thanh Bình", role: "Phó trưởng phòng Phụ trách Phòng TT-PC", type: "Đại biểu" },
+                { name: "Nguyễn Hoàng Phương", role: "Trưởng Phòng QLCSVC", type: "Đại biểu" },
+                { name: "Huỳnh Vĩnh Nghi", role: "Phó trưởng Phòng QLCSVC", type: "Đại biểu" },
+                { name: "Trần Quốc Cường", role: "Phó trưởng Phòng QLCSVC", type: "Đại biểu" },
+                { name: "Nguyễn Nhất Trang", role: "Trưởng Phòng CTSV", type: "Đại biểu" },
+                { name: "Lê Minh Trí", role: "Phó trưởng Phòng CTSV", type: "Đại biểu" },
+                { name: "Phan Huy Lâm", role: "Phó trưởng Phòng CTSV", type: "Đại biểu" },
+                { name: "Phạm Quốc Thịnh", role: "Phó trưởng Phòng QLKHCN&HTQT", type: "Đại biểu" },
+                { name: "Phan Thị Ngọc Diễm", role: "Chuyên viên Phòng QLKHCN&HTQT", type: "Đại biểu" },
+                { name: "Lê Minh Thuận", role: "Chuyên viên Phòng QLKHCN&HTQT", type: "Đại biểu" },
+                { name: "Trần Thanh Phong", role: "Phó trưởng Khoa phụ trách Khoa LLCT-GDQP&TC", type: "Đại biểu" },
+                { name: "Nguyễn Trung Hiếu", role: "Trưởng BM LLCT Khoa LLCT-GDQP&TC", type: "Đại biểu" },
+                { name: "Hà Trọng Thảo", role: "Phó Trưởng BM PT BM GDTC Khoa LLCT-GDQP&TC", type: "Đại biểu" },
+                { name: "Cao Thị Tuyết Loan", role: "Phó Trưởng BM LLCT Khoa LLCT-GDQP&TC", type: "Đại biểu" },
+                { name: "Nguyễn Đăng Hải", role: "GVC - Khoa LLCT-GDQP&TC", type: "Đại biểu" },
+                { name: "Đoàn Minh Nguyệt", role: "Phó Trưởng khoa phụ trách Khoa KT-L", type: "Đại biểu" },
+                { name: "Nguyễn Thanh Trang", role: "Phó Trưởng khoa KT-L", type: "Đại biểu" },
+                { name: "Nguyễn Minh Nhã", role: "Phó Trưởng khoa KT-L", type: "Đại biểu" },
+                { name: "Huỳnh T. Ngọc Phượng", role: "Phó Trưởng BM - Khoa KT-L", type: "Đại biểu" },
+                { name: "Lê Hoàng Ân", role: "Phó Trưởng BM - Khoa KT-L", type: "Đại biểu" },
+                { name: "Ngô Thanh Phong", role: "Phó Trưởng BM - Khoa KT-L", type: "Đại biểu" },
+                { name: "Nguyễn Thị Khuyến", role: "Phó Trưởng BM - Khoa KT-L", type: "Đại biểu" },
+                { name: "Lâm Thái Bảo Ngọc", role: "Trưởng BM Tài chính - Khoa KT-L", type: "Đại biểu" },
+                { name: "Nguyễn T. Ngọc Phương", role: "Giảng viên chính - Khoa KT-L", type: "Đại biểu" },
+                { name: "Trần Phan Đoan Khánh", role: "Giảng viên chính - Khoa KT-L", type: "Đại biểu" },
+                { name: "Nguyễn Hữu Phước", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Văn Thị Vàng", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Phạm Trần Ngọc Hương", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Bùi Vĩnh Thanh", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Nguyễn Văn Hòa", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Võ Văn Hiền", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Nguyễn Lê Thùy Liên", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Nguyễn Hoàng Thơ", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Dương Ngọc Diệp", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Lê Thị Hồng Trang", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Trần Kim Ngân", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Huỳnh Thị Lệ Hoa", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Phan Thị Thanh Thúy", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Võ Thị Thủy Vẫn", role: "Giảng viên - Khoa KT-L", type: "Đại biểu" },
+                { name: "Nguyễn Huỳnh Thi", role: "Phó trưởng khoa Phụ trách Khoa KTCN", type: "Đại biểu" },
+                { name: "Nguyễn Ngọc Thắng", role: "Phó trưởng Khoa KTCN", type: "Đại biểu" },
+                { name: "Nguyễn Văn Hiếu", role: "Giảng viên - Khoa KTCN", type: "Đại biểu" },
+                { name: "Dương Ngọc Hùng", role: "Trưởng bộ môn - Khoa KTCN", type: "Đại biểu" },
+                { name: "Huỳnh Minh Vũ", role: "Giảng viên - Khoa KTCN", type: "Đại biểu" },
+                { name: "Nguyễn Thanh Nguyên", role: "Giảng viên - Khoa KTCN", type: "Đại biểu" },
+                { name: "Phạm Ngọc Giàu", role: "Giảng viên - Khoa KTCN", type: "Đại biểu" },
+                { name: "Lưu Trần Hữu Tín", role: "Giảng viên - Khoa KTCN", type: "Đại biểu" },
+                { name: "Võ Thị Trúc Giang", role: "Phó Trưởng Khoa, Phụ trách Khoa SP&KHCB", type: "Đại biểu" },
+                { name: "Nguyễn Giang Lam", role: "Phó trưởng Khoa SP&KHCB", type: "Đại biểu" },
+                { name: "Đặng Thị Cẩm Nhung", role: "Phó Trưởng BM KHTN, Khoa SP&KHCB", type: "Đại biểu" },
+                { name: "Trương Hoàng Vinh", role: "Phó Trưởng BM KHXH, Khoa SP&KHCB", type: "Đại biểu" },
+                { name: "Mai Đức Long", role: "Phó TBM GDTH-MN Khoa SP&KHCB", type: "Đại biểu" },
+                { name: "Bùi Thị Nhật Tuyền", role: "Phó Trưởng Bộ môn Khoa SP&KHCB", type: "Đại biểu" },
+                { name: "Phạm Thị Nhật Trinh", role: "Giảng viên Khoa SP&KHCB", type: "Đại biểu" },
+                { name: "Lê Thị Thanh Thảo", role: "Giảng viên chính - Khoa SP&KHCB", type: "Đại biểu" },
+                { name: "Hồ Lưu Phúc", role: "Giảng viên Khoa SP&KHCB", type: "Đại biểu" },
+                { name: "Nguyễn Thị Xuân Anh", role: "Giảng viên Khoa SP&KHCB", type: "Đại biểu" },
+                { name: "Phùng Thị Hà", role: "Giảng viên chính - Khoa SP&KHCB", type: "Đại biểu" },
+                { name: "Lý Hồng Nguyệt Quế", role: "Giảng viên Khoa SP&KHCB", type: "Đại biểu" },
+                { name: "Trương Khắc Hiếu", role: "Phó trưởng khoa phụ trách khoa NN&CNTP", type: "Đại biểu" },
+                { name: "Đoàn Thị Ngọc Thanh", role: "Phó trưởng Khoa NN&CNTP", type: "Đại biểu" },
+                { name: "Nguyễn Tấn Hùng", role: "Trưởng Bộ môn CNTP Khoa NN&CNTP", type: "Đại biểu" },
+                { name: "Nguyễn Công Tráng", role: "Phó Trưởng Bộ môn NTTS Khoa NN&CNTP", type: "Đại biểu" },
+                { name: "Trần Thị Minh Tú", role: "Trưởng Bộ môn CNTY Khoa NN&CNTP", type: "Đại biểu" },
+                { name: "Trần Hoàng Diệp", role: "Giảng viên chính - Khoa NN&CNTP", type: "Đại biểu" },
+                { name: "Nguyễn Bích Hà Vũ", role: "Giảng viên chính - Khoa NN&CNTP", type: "Đại biểu" },
+                { name: "Lê Thị Như Thảo", role: "Giảng viên - Khoa NN&CNTP", type: "Đại biểu" },
+                { name: "Nguyễn Thị Kim Xuyến", role: "Giám đốc Trung tâm TTTV", type: "Đại biểu" },
+                { name: "Trần Huy Long", role: "Phó Giám đốc Trung tâm TTTV", type: "Đại biểu" },
+                { name: "Lê Thị Tân", role: "Chuyên viên Trung tâm TTTV", type: "Đại biểu" },
+                { name: "Giang Thị Kim Tú", role: "Phó Giám đốc Phụ trách Trung tâm ĐTBDTX-THNN", type: "Đại biểu" },
+                { name: "Huỳnh Thị Ngọc Linh", role: "Phó Giám đốc Trung tâm KT&ĐBCLGD", type: "Đại biểu" },
+                { name: "Trần Ngọc Ẩn", role: "Phó Giám đốc Phụ trách Trung tâm TVTS&QHDN", type: "Đại biểu" },
+                { name: "Nguyễn Minh Quân", role: "Bí thư đoàn trường", type: "Đại biểu" },
+                { name: "Phan Thị Tuyết Vân", role: "Chuyên viên Trung tâm TVTS&QHDN", type: "Đại biểu" }
             ]
         };
 
@@ -374,13 +451,12 @@
             eventConfig.guests.forEach((guest, index) => {
                 let badgeColor = 'bg-gray-100 text-gray-700';
                 
-                // Điều chỉnh màu sắc cho các loại khách mời
                 if(guest.type === 'VIP' || guest.type === 'Khách mời') badgeColor = 'bg-red-100 text-red-700 font-bold';
                 else if(guest.type === 'Chủ trì') badgeColor = 'bg-yellow-100 text-yellow-700 font-bold';
                 else if(guest.type === 'Đại biểu') badgeColor = 'bg-blue-100 text-blue-700';
                 else if(guest.type === 'Ban tổ chức') badgeColor = 'bg-green-100 text-green-700';
                 
-                container.insertAdjacentHTML('beforeend', `<tr class="hover:bg-blue-50 border-b border-gray-100"><td class="py-3 px-4 text-center text-gray-500 text-sm">${index + 1}</td><td class="py-3 px-4 font-bold text-gray-800 text-sm">${guest.name}</td><td class="py-3 px-4 text-gray-600 text-xs">${guest.role}</td><td class="py-3 px-4 text-center"><span class="text-[10px] px-2 py-1 rounded-full ${badgeColor}">${guest.type}</span></td></tr>`);
+                container.insertAdjacentHTML('beforeend', `<tr class="hover:bg-blue-50 border-b border-gray-100"><td class="py-3 px-4 text-center text-gray-500 text-sm">${index + 1}</td><td class="py-3 px-4 font-bold text-gray-800 text-sm">${guest.name}</td><td class="py-3 px-4 text-gray-600 text-xs">${guest.role}</td><td class="py-3 px-4 text-center"><span class="text-[10px] px-2 py-1 rounded-full ${badgeColor} whitespace-nowrap">${guest.type}</span></td></tr>`);
             });
         }
 
@@ -396,7 +472,7 @@
         function closeRsvpModal() { rsvpModal.classList.add('opacity-0'); rsvpModalContent.classList.add('scale-95'); setTimeout(() => { rsvpModal.classList.add('hidden'); }, 300); }
         rsvpModal.addEventListener('click', (e) => { if (e.target === rsvpModal) closeRsvpModal(); });
 
-        // Logic Modal CHƯƠNG TRÌNH HỘI NGHỊ (MỚI)
+        // Logic Modal CHƯƠNG TRÌNH HỘI NGHỊ 
         const programModal = document.getElementById('programModal'), programModalContent = document.getElementById('programModalContent');
         function openProgramModal() { programModal.classList.remove('hidden'); setTimeout(() => { programModal.classList.remove('opacity-0'); programModalContent.classList.remove('scale-95'); }, 10); }
         function closeProgramModal() { programModal.classList.add('opacity-0'); programModalContent.classList.add('scale-95'); setTimeout(() => { programModal.classList.add('hidden'); }, 300); }
